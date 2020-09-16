@@ -14,14 +14,17 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const savedContacts = localStorage.getItem('contacts');
-    
-    return savedContacts ? this.setState({ contacts: JSON.parse(savedContacts) }) : [];
+    const savedContacts = localStorage.getItem("contacts");
+
+    return savedContacts
+      ? this.setState({ contacts: JSON.parse(savedContacts) })
+      : [];
   }
 
-  componentDidUpdate(prevProps, prevState){
-
-    return prevState.contacts !== this.state.contacts ? localStorage.setItem('contacts', JSON.stringify(this.state.contacts)) : [];
+  componentDidUpdate(prevProps, prevState) {
+    prevState.contacts !== this.state.contacts
+      ? localStorage.setItem("contacts", JSON.stringify(this.state.contacts))
+      : [];
   }
 
   addContact = (name, number) => {
