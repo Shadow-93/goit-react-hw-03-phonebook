@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import ContactForm from "./ContactForm/ContactForm";
-import ContactList from "./ConatctList/ContactList";
-import Filter from "./Filter/Filter";
-import Notification from "./Notification/Notification";
+import ContactForm from "../ContactForm/ContactForm";
+import ContactList from "../ConatctList/ContactList";
+import Filter from "../Filter/Filter";
+import Notification from "../Notification/Notification";
 
 import "./App.css";
 
@@ -16,16 +16,18 @@ class App extends Component {
 
   componentDidMount() {
     const savedContacts = localStorage.getItem("contacts");
-
-    return savedContacts
-      ? this.setState({ contacts: JSON.parse(savedContacts) })
-      : [];
+    if (savedContacts) {
+      return this.setState({ contacts: JSON.parse(savedContacts) }) || [];
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    return prevState.contacts !== this.state.contacts
-      ? localStorage.setItem("contacts", JSON.stringify(this.state.contacts))
-      : [];
+    if (prevState.contacts !== this.state.contacts) {
+      return localStorage.setItem(
+        "contacts",
+        JSON.stringify(this.state.contacts) || []
+      );
+    }
   }
 
   addContact = (name, number) => {
@@ -74,7 +76,7 @@ class App extends Component {
   };
 
   render() {
-    const { filter } = this.state;
+    const { filter, contacts } = this.state;
     const findContact = this.getContacts();
 
     return (
@@ -83,7 +85,7 @@ class App extends Component {
         <ContactForm onAddContact={this.addContact} />
 
         <h2>Contacts</h2>
-        {findContact.length > 0 ? (
+        {contacts.length > 0 ? (
           <Filter value={filter} onSearchFilter={this.searchFilter} />
         ) : (
           <Notification title={"Please add contact"} />

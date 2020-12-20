@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import s from "./ContactList.module.css";
+import s from "../ContactList.module.css";
 
 const ContactListItem = ({ name, number, onRemove }) => (
   <li className={s.listItem}>
